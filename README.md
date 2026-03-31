@@ -10,11 +10,11 @@
 <li>time - module that allows us to work with various time controls and its functions </li>
 </ul>
 <br>
+
 ## Table of Contents
-1.[Introduction](#introduction)<Br>
 
+1.[Introduction](#introduction)<br>
 2.[Directory Structure](#directory-structure)<br>
-
 3.[Implementation](#implementation)<br>
 
 ## Introduction
