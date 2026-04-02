@@ -7,9 +7,9 @@ class Connect4:
     def Valid_Move(self,x,y,s):
         if self.array[x][y-1]=="X" or self.array[x][y-1]=="O":
             self.array[x][y-1]=s
-            return true
+            return True
         else:
-            return false
+            return False
     
 
 

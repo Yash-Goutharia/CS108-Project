@@ -2,7 +2,7 @@
 ## Mini Game Hub using Pygame
 ## Modules
 <ul>
-<li>pygame-ce - the standard library used to programe games </li>
+<li>pygame-ce - the standard library used to programme games in python</li>
 <li>sys - module used to interpret the arguements from command line</li>
 <li>numpy - standard python library containing various functions related to multi dimensional arrays </li>
 <li>matplotlib - library used to draw and understand various graphs and charts in python </li>
