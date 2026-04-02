@@ -26,12 +26,12 @@ hub/
     ├── main.sh
     ├── game.py
     ├── leaderboard.sh
-    ├──games
+    ├── games
          ├── tictactoe.py
          ├── connect4.py
          ├── othello.py
     ├── users.tsv
-    |__ history.csv
+    ├── history.csv
 ```
 main.sh - for user authentication of the two players <br>
 
