@@ -4,33 +4,49 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import os
+#base class for execution of the game
 class Board_Games:
-    def __init__(self,game):
+    #class initialized
+    def __init__(self,game,Screen):
         self.player1 = sys.argv[1]
         self.player2 = sys.argv[2]
         self.current_player = sys.argv[1]
-        if game == "tictactoe":
-            self.board_game = tictactoe()
+        self.board_game = game
+        self.gaming_screen = Screen
+        self.start_game()
+    #fucntion to switch turns
     def switch_turn(self):
         if self.current_player == sys.argv[1]:
             self.current_player = sys.argv[2]
         else:
             self.current_player = sys.argv[1]
+    #funcyion to check if the current player won the game or not
     def won(self):
         if self.board_game.win():
             return True
-
+    #function to start the gameplay
+    ##draws the board after every turn each player makes a move and stops if a player wins or draws
+    def start_game(self):
+        while True:
+            self.board_game.draw_board(self.gaming_screen)
+            self.board_game.Play_Move(self.gaming_screen)
+            self.switch_turn()
+            if self.won():
+                break
+#initialized pygame module and the screen
 pygame.init()
 Width = 1200
 Height = 800
-screen=pygame.display.set_mode((Width,Height))
+screen=pygame.display.set_mode((Width,Height))   
 
-def main_menu():
+running = True
 
+while(running):
+    screen.fill("black")
     button_Width = 300
     button_Height = 60
 
-    # tictactoe buttton to go to tictactoe game
+    ### tictactoe buttton to go to tictactoe game
     tictactoe_btn = pygame.Surface((button_Width, button_Height))
     for i in range(button_Height):
        t = (i / button_Height)* (9/10)  
@@ -46,7 +62,7 @@ def main_menu():
     pygame.draw.rect(screen, (255,255,255), (Width/2 - button_Width/2,300,button_Width,button_Height), 3, border_radius=30)
     pygame.draw.rect(screen, (0,0,0), (Width/2 - button_Width/2,300,button_Width,button_Height), 1, border_radius=30)
     
-    #Othello button to go to Othello game
+    ######Othello button to go to Othello game
     Othello_btn = pygame.Surface((button_Width, button_Height))
     for i in range(button_Height):
        t = (i / button_Height)* (9/10)  
@@ -61,7 +77,6 @@ def main_menu():
     othello_button = pygame.Rect(Width/2 - button_Width/2,420,button_Width,button_Height)
     pygame.draw.rect(screen, (255,255,255), (Width/2 - button_Width/2,420,button_Width,button_Height), 3, border_radius=30)
     pygame.draw.rect(screen, (0,0,0), (Width/2 - button_Width/2,420,button_Width,button_Height), 1, border_radius=30)
-
     #connect4 button to go to connect4 game
     Connect4_btn = pygame.Surface((button_Width, button_Height))
     for i in range(button_Height):
@@ -78,41 +93,27 @@ def main_menu():
     pygame.draw.rect(screen, (255,255,255), (Width/2 - button_Width/2,540,button_Width,button_Height), 3, border_radius=30)
     pygame.draw.rect(screen, (0,0,0), (Width/2 - button_Width/2,540,button_Width,button_Height), 1, border_radius=30)
 
-    #to write text as name of games inside the buttons
+    #to write text as name of games inside the buttons with a font
     font = pygame.font.SysFont("trebuchetms",40)
-    tictactoe = font.render("Tic-Tac-Toe",True,(255,255,255))
-    screen.blit(tictactoe, (Width/2 - button_Width/2 + 50,300))
-    othello = font.render("Othello",True,(255,255,255))
-    screen.blit(othello, (Width/2 - button_Width/2 + 85,420))
-    connect4 = font.render("Connect4",True,(255,255,255))
-    screen.blit(connect4, (Width/2 - button_Width/2 + 70,540))
+    tictactoe_font = font.render("Tic-Tac-Toe",True,(255,255,255))
+    screen.blit(tictactoe_font, (Width/2 - button_Width/2 + 50,300))
+    othello_font = font.render("Othello",True,(255,255,255))
+    screen.blit(othello_font, (Width/2 - button_Width/2 + 85,420))
+    connect4_font = font.render("Connect4",True,(255,255,255))
+    screen.blit(connect4_font, (Width/2 - button_Width/2 + 70,540))
     
-    #to select the game
+    my_game = None
+    #to select the game the players want to play
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if tictactoe_button.collidepoint(mouse_pos):
-                return "tictactoe"
+                my_game = Board_Games(tictactoe(),screen)
             elif othello_button.collidepoint(mouse_pos):
-                return "othello"
+                pass
             elif connect4_button.collidepoint(mouse_pos):
-                return "connect4"
-def Quit():
-    pass
-running = True
-
-while(running):
-    game = main_menu()
-    x = Board_Games(game)
-    x.board_game.draw_board()
-    while True:
-        if Quit:
-            break
-        x.board_game.Play_Move()
-        x.board_game.draw_board()
-        x.switch_player()
-        if x.won() or x.draw():
-            break
+                pass
+    
     pygame.display.update()
     for events in pygame.event.get():
         if events.type == pygame.QUIT:
