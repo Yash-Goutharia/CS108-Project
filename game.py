@@ -1,5 +1,6 @@
 import pygame
 from games.tictactoe import tictactoe
+from games.connect4 import connect4
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -34,7 +35,8 @@ class Board_Games:
             if self.won():
                 break
 #initialized pygame module and the screen
-pygame.init()
+pygame.display.init()
+pygame.font.init()
 Width = 1200
 Height = 800
 screen=pygame.display.set_mode((Width,Height))   
@@ -112,7 +114,7 @@ while(running):
             elif othello_button.collidepoint(mouse_pos):
                 pass
             elif connect4_button.collidepoint(mouse_pos):
-                pass
+                my_game = Board_Games(connect4(),screen)
     
     pygame.display.update()
     for events in pygame.event.get():

@@ -1,6 +1,7 @@
 import numpy as np
 import pygame
-pygame.init()
+pygame.display.init()
+pygame.font.init()
 class tictactoe:
     #initialized tictactoe class
     def __init__(self):
@@ -59,7 +60,7 @@ class tictactoe:
        current_row = self.latest_move[0]
        current_column = self.latest_move[1]
        diag_line1 = np.diag(self.board, k=self.latest_move[1]-self.latest_move[0]) #diagonal sliced array containing the latest played cell
-       diag_line2 = np.diag(np.fliplr(self.board)) #second diagonal slice in opposite direction
+       diag_line2 = np.diag(np.fliplr(self.board),k=(self.board.shape[1]-1-self.latest_move[0])-self.latest_move[0]) #second diagonal slice in opposite direction
        row_column_diagonal_slices = [#checking if the latest filled row contains a winning line 
                      self.board[current_row, 0:5],self.board[current_row, 1:6],
                      self.board[current_row, 2:7],self.board[current_row, 3:8],
