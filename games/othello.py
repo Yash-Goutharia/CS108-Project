@@ -1,108 +1,62 @@
-import pygame
 import numpy as np
-import sys
-
-# Constants
-BOARD_SIZE = 8
-CELL_SIZE = 80
-WIDTH = HEIGHT = BOARD_SIZE * CELL_SIZE
-BLUE = (0, 0, 128)
-YELLOW = (200, 200, 0)
-WHITE = (255, 255, 255)
-HIGHLIGHT = (200, 0, 0)
-
-# Directions (8 directions)
-DIRECTIONS = [
-    (-1, -1), (-1, 0), (-1, 1),
-    (0, -1),          (0, 1),
-    (1, -1), (1, 0),  (1, 1)
-]
+import pygame
+pygame.display.init()
+pygame,font.init()
+class tictactoe:
+    #initialised othello.py class
+    def __init__(self):
+        self.rows = 8
+        self.coloumns = 8
+        self.board = np.zeros((8,8),dtype = int)
+        self.latest_move = [0,0] 
+        self.move_no = 1
 
 
-class Othello:
-    def __init__(self, player1="Player1", player2="Player2"):
-        self.board = np.zeros((BOARD_SIZE, BOARD_SIZE), dtype=int)
+        #initial 4 discs
+        self.board[3,3] = 2
+        self.board[4,4] = 2
+        self.board[3,4] = 1
+        self.board[4,3] = 1
 
-        # Initial setup
-        self.board[3][3] = 2
-        self.board[3][4] = 1
-        self.board[4][3] = 1
-        self.board[4][4] = 2
+    
+    def Play_Move(self,Screen):
+        Cell_size = 60
+        left_seperation = (Screen.get_width() - 8 * Cell_size)/2 #SEPEARTION FROM LEFT 
+        top_seperation = (Screen.get_height() - 8 * Cell_size)/2 #SEPERATION FROM RIGHT
+        x = 0 
+        y =0
 
-        self.current_player = 1  
-        self.players = {1: player1, 2: player2}
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    (x,y) = event.pos
+            #x and y coordinates in board's ref frame
+            board_x = x - left_seperation
+            board_y = y - top_seperation
 
-    def switch_turn(self):
-        self.current_player = 3 - self.current_player
+            #if a borad cell is clicked for move
+            if 0 <= board_x < (10*Cell_size) and 0 <= board_y < (10*Cell_size):
 
-    def on_board(self, x, y):
-        return 0 <= x < BOARD_SIZE and 0 <= y < BOARD_SIZE
+            #to get cell coordinates wrt board 
+                coloumn = int(board_x//Cell_size)
+                row = int(board_y// Cell_size)
 
-    def get_valid_moves(self, player):
-        valid_moves = []
 
-        for x in range(BOARD_SIZE):
-            for y in range(BOARD_SIZE):
-                if self.board[x][y] != 0:
-                    continue
-
-                if self.is_valid_move(x, y, player):
-                    valid_moves.append((x, y))
-
-        return valid_moves
-
-    def is_valid_move(self, x, y, player):
-        opponent = 3 - player
-
-        for dx, dy in DIRECTIONS:
-            nx, ny = x + dx, y + dy
-            found_opponent = False
-
-            while self.on_board(nx, ny) and self.board[nx][ny] == opponent:
-                nx += dx
-                ny += dy
-                found_opponent = True
-
-            if found_opponent and self.on_board(nx, ny) and self.board[nx][ny] == player:
+        # to see if that cell is already played in board or not
+        # if a move is not played in that cell, it is represented by zero, otherwise 1 or 2 depending on which player is moving
+        
+        if self.board[row,column] == 0:
+            self.move_no = self.move_no + 1
+            self.latest_move = [row, coloumn]
+            if self.move_no%2 !=0:
+                self.board[row, coloumn] = 1
+            else:
+                self.board[row, coloumn] = 2
+            break
+        return None
+    def win(self):
+        if np.sum(self.board == 0) == 0:
+            if np.sum(self.board == 1 ) > np.sum(self.board == 2):
                 return True
-
-        return False
-
-    def make_move(self, x, y, player):
-        if not self.is_valid_move(x, y, player):
-            return False
-
-        self.board[x][y] = player
-        opponent = 3 - player
-
-        for dx, dy in DIRECTIONS:
-            nx, ny = x + dx, y + dy
-            tiles_to_flip = []
-
-            while self.on_board(nx, ny) and self.board[nx][ny] == opponent:
-                tiles_to_flip.append((nx, ny))
-                nx += dx
-                ny += dy
-
-            if self.on_board(nx, ny) and self.board[nx][ny] == player:
-                for fx, fy in tiles_to_flip:
-                    self.board[fx][fy] = player
-
-        return True
-
-    def has_moves(self, player):
-        return len(self.get_valid_moves(player)) > 0
-
-    def game_over(self):
-        return not (self.has_moves(1) or self.has_moves(2))
-
-    def get_winner(self):
-        black = np.sum(self.board == 1)
-        white = np.sum(self.board == 2)
-
-        if black > white:
-            return self.players[1]
-        elif white > black:
-            return self.players[2]
-        else:
-            return "Draw"
+            else:
+                
