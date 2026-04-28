@@ -1,16 +1,20 @@
 #!/bin/bash
 for ((x=1;x<=2;x++)); do
+    #asking player1 for username
 	read -p "Player$x, Enter your username:" username
+	#checks if username exists or not in users.tsv
         if [[ -z $(grep "^$username"$'\t' users.tsv) ]]; then
 		echo "Username does not exist, do you want to register:[Y/N]"
 		read response
                 if [[ $response == "Y" ]]; then
 			read -p "Make your password:" password
+	        #adding username and hasehd password to users.tsv
 			echo -e "$username\t$(echo $password | sha256sum )" >> users.tsv
                 fi
         else 
 		while true; do
 			read -p "Player$x, Enter your password:" password
+		#checks if password entered is correct or not
 			if [[  $(grep "^$username"$'\t' users.tsv | cut -d '$t' -f 2) != $(echo $password | sha256sum) ]]; then
 				echo "Wrong password, Please try again"
 		                continue
