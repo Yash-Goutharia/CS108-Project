@@ -2,12 +2,13 @@
 ## Mini Game Hub using Pygame
 ## Modules
 <ul>
-<li>pygame-ce - the standard library used to programme games in python</li>
+<li>pygame-ce - the library used to programme games in python</li>
 <li>sys - module used to interpret the arguements from command line</li>
-<li>numpy - standard python library containing various functions related to multi dimensional arrays </li>
+<li>numpy - python library containing various functions related to multi dimensional arrays </li>
 <li>matplotlib - library used to draw and understand various graphs and charts in python </li>
-<li>pathlib - standard library for handling filesystem paths</li>
-<li>time - module that allows us to work with various time controls and its functions </li>
+<li>datetime - module that allows us to work with various time controls and its functions </li>
+<li>subprocess - standard python library used to run bash scripts from python </li>
+<li>CSV - standard pyhton library used for handling CSV(comma seperated values) files </li>
 </ul>
 <br>
 
@@ -16,7 +17,7 @@
 1.[Introduction](#introduction)<br>
 2.[Directory Structure](#directory-structure)<br>
 3.[Implementation](#implementation)<br>
-
+4.[Citations/documentations](#citations)<br>
 ## Introduction
 Mini game hub is a collection of three games tictactoe, othello and connect4 that will be implemented in this project using specifically using Python, Pygame module and Bash
 ## Directory Structure
@@ -56,6 +57,22 @@ file users.tsv to register the user. That marks the finishing of our authenticat
 game.py contains the base class of all the games that implements the game and controls actions like switching players, drawing the board after each move and signal for each winning or losing or draw position, though the actual drawing board codes and winning condition checks actually are in the indidvidual game files tictactoe.py, othello.py and connect4.py.
 The game will be started from main.py by using the two player that were authenticated in main.sh as arguemnts. The pygame window opens and the display shows options to select any of the threre games the players want to play. On clicking any of the options, the players can play any of the games. 
 ### iii) Recording and Display of game statistics
-After each game played, a row is appended to history.csv containing winner and loser data of each game played till now, and game.py then calls leaderboard.sh which reads data(rows) from history.csv and prints a formatted table of statistics of all games played till now, and finally asks the players if they want to play another game or stop.
+After each game played, a row is appended to history.csv containing winner and loser data of each game played till now, and game.py then calls leaderboard.sh which reads data(rows) from history.csv and prints a formatted table of statistics of all games played till now based on one of the metrics
+<ul>
+<li>no. of wins</li>
+<li>no. of losses</li>
+<li>W/L ratio</li>
+</ul>
+
+, and finally asks the players if they want to play another game or stop.<br>
 ### iv) Visualization using matplotlib
-After leaderboard.sh shows table, game.py displays a bar graph and pie chart that tell about the game statistics and performance of each player.
+After leaderboard.sh shows table, game.py displays a bar graph and pie chart that tell about the game statistics and performance of each player.<br>
+### v) prompt
+the program then asks the user if he wants to continue playing more games or want to quit.<br>
+## Citations
+<ul>
+<li>Pygame Documentation: https://www.pygame.org/docs/</li>
+<li>NumPy Documentation: https://numpy.org/doc/</li>
+<li>Python Documentation: https://docs.python.org/3/</li>
+<li>Stack Overflow: https://stackoverflow.com</li>
+</ul>
