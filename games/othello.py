@@ -24,7 +24,11 @@ class othello:
         left_seperation = (Screen.get_width() - 8 * Cell_size)/2 #SEPEARTION FROM LEFT 
         top_seperation = (Screen.get_height() - 8 * Cell_size)/2 #SEPERATION FROM RIGHT
         x = 0 
-        y =0
+        y = 0
+        p = 1 if self.move_no %2 != 0 else 2
+        if not self.has_valid_move(p):
+            self.move_no += 1
+            return False
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -59,7 +63,13 @@ class othello:
                                 self.latest_move = [row, column]
                                 return True 
             pygame.display.update()
-
+    def has_valid_move(self, player):
+        for r in range(8):
+          for c in range(8):
+            if self.board[r][c] == 0:
+                if self.get_flipped_discs(r, c, player):
+                    return True
+        return False
     def get_flipped_discs(self, row, col, player):
         """Helper to find which opponent pieces would be flipped by this move."""
         opponent = 2 if player == 1 else 1
