@@ -18,7 +18,7 @@
 % -----------------------------
 \section{Introduction}
 
-This project implements a Mini Game Hub that integrates Bash scripting with Python and Pygame. It allows two users to authenticate, select from multiple games, play interactively, and store results.
+This project implements a Mini Game Hub that integrates Bash scripting with Python and Pygame. It allows two users to authenticate, select from multiple games, play interactively, and store results and game statistics.
 
 % -----------------------------
 \section{External Libraries Used}
@@ -34,6 +34,24 @@ This project implements a Mini Game Hub that integrates Bash scripting with Pyth
     \item \textbf{Bash Utilities}: \texttt{cut}, \texttt{sort}, \texttt{uniq} used for leaderboard generation.
 \end{itemize}
 % -----------------------------
+\section{directory structure}
+dirtree{%
+.1 background.jpeg.
+.1 main\_menu.jpeg.
+.1 main.sh.
+.1 users.ts.v
+.1 game.py.
+.1 games/.
+.2 tictactoe.py.
+.2 othello.py.
+.2 connect4.py.
+.1 history.csv.
+.1 leaderboard.sh.
+.1 .gitignore.
+.1 report.tex.
+.1 report.pdf.
+.1 REPORT.md.
+}
 \section{Features Implemented}
 
 \begin{itemize}
@@ -55,33 +73,33 @@ This project implements a Mini Game Hub that integrates Bash scripting with Pyth
 \begin{itemize}
     \item Displays menu and handles navigation
     \item Calls respective game modules
-    \item Maintains game loop
-    \item Stores results in CSV file
+    \item Contains the base class Board\_Games that manages more than half of the gameplay. Initialized with \_\_init\_\_ and this initializes starts the start\_game function in Board\_games class itself that runs in a while loop.
+    \item game.py contains the game menu dsiplay code .After running python3 game.py username1 username2, the pygame window opens, and the main menu displays the games othello, tictactoe and connect4. The user selects any of the game, and then the function that draws the game board gets called from the individual class in the individual files of the games folder. Then both the player's name box also gets displayed and the name is glowed depending on whose turn it is, and after the players play the game, the data regarding winner and ,loser of the game is sent to history.csv in row formats by opening "history.csv" in append mode. Then display shows the users the winner of the game played, or draw in case. Then the display asks the users to select the metric they want to see the leaderboard and after selecting the metric ,the leaderboard data gets displayed in a formatted table in the terminal. This is possible after leaderboard.sh script was executed by subprocess command from game.py. leaderboard.sh contains an awk script that runs that executes on history.csv and analyzes the data row by row(or field by field) and displays the table. Also some graphs are displayed when the visual\_graphs function is called. Finally the game window asks the user if they want to play the game again or not
 \end{itemize}
-
 \subsection{Connect4 Logic}
 
 \begin{itemize}
-    \item 7x7 grid using NumPy array
-    \item Mouse click determines column
+    \item 7x7 grid initialized using 2D NumPy array
+    \item After a mouse click, pygame uses mouse.pos from pygame events and determines the location of cell that was clicked and immediately the move gets played and game object array gets changed internally. Mouse click determines column and row in simple words.
     \item Gravity logic drops piece to lowest available row
-    \item Win condition checks 4 consecutive elements
+    \item Win condition: checks 4 consecutive elements in row, column or diagonal format.
 \end{itemize}
 
 \subsection{Othello Logic}
 
 \begin{itemize}
-    \item 8x8 board implementation
-    \item Valid moves determined by flanking rules
+    \item 8x8 board implementation using numpy 2D array
+    \item Valid moves determined by flanking rules. Uses additional user-defined functions that uses loops to determine the valid moves.
     \item Pieces flipped accordingly
+	\item game ends if no valid moves remaining or all cells are filled with discs.The winner is determined by the person wit the most number of discs
 \end{itemize}
 
 \subsection{Tic Tac Toe Logic}
 
 \begin{itemize}
-    \item 10x10 board
-    \item Winning condition: 5 consecutive marks
-    \item Checks rows, columns, diagonals
+    \item 10x10 board initialized using 2D numpy array
+	\item mouse click logic same as of connect4.
+    \item Winning condition: 5 consecutive marks in row, column or diagonal
 \end{itemize}
 
 \subsection{Authentication System}
@@ -112,6 +130,7 @@ This project implements a Mini Game Hub that integrates Bash scripting with Pyth
     \item Circular import issues due to naming conflicts
     \item Bash capturing unintended output from functions
     \item Python version and package installation issues
+	\item setting sizes, fonts and positions of text and button objects int the window display required a lot of time. 
 \end{itemize}
 
 % -----------------------------
@@ -121,7 +140,7 @@ This project implements a Mini Game Hub that integrates Bash scripting with Pyth
     \item Add AI opponent for single-player mode
     \item Improve graphical UI and animations
     \item Add sound effects
-    \item Advanced leaderboard with per-game stats
+    \item Try to improve leaderboard stats format and possible would have added the draw column as well for history.csv 
     \item Add undo/redo functionality
 \end{itemize}
 
