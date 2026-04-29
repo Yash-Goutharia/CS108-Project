@@ -152,7 +152,7 @@ class othello:
                 pygame.draw.circle(Screen, (255, 255, 255), cell_center, (Cell_size/2) - gap)
         pygame.display.update()
     def draw_neon_button(self,screen, x, y, w, h, color, text, active, font):
-     radius = h // 2
+     radius = 1
 
      if active:
         for i in range(4):
