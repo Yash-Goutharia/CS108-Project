@@ -54,6 +54,26 @@ def show_menu():
                     return None
             
 
+def ask_play_again():
+    font = pygame.font.Font(None, 40)
+
+    while True:
+        screen.fill((0, 0, 0))
+
+        text = font.render("Play Again? (Y/N)", True, (255,255,255))
+        screen.blit(text, (150, 250))
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_y:
+                    return True
+                if event.key == pygame.K_n:
+                    return False
 
 
 def run_othello():
@@ -75,6 +95,10 @@ def run_othello():
             with open("history.csv", "a", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([p1, p2, winner, "othello", datetime.now()])
+            if ask_play_again():
+                return   # back to menu
+            else:
+                pygame.quit()
             pygame.time.wait(2000)
             return
         
@@ -96,6 +120,10 @@ def run_connect4():
             with open("history.csv", "a", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([p1, p2, winner, "connect4", datetime.now()])
+            if ask_play_again():
+                return   # back to menu
+            else:
+                pygame.quit()
             pygame.time.wait(2000)
             return
 
@@ -118,6 +146,10 @@ def run_tictactoe():
             with open("history.csv", "a", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([p1, p2, winner, "tictactoe", datetime.now()])
+            if ask_play_again():
+                return   # back to menu
+            else:
+                pygame.quit()
             pygame.time.wait(2000)
             return
         
