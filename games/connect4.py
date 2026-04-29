@@ -48,7 +48,7 @@ class connect4:
           q = self.player_2
        else:
           p = self.player_2
-          q = self.player_2
+          q = self.player_1
 
        if np.sum(self.board == 0)==0:
           if np.sum(self.board == 1)> np.sum(self.board == 2):
@@ -114,7 +114,7 @@ class connect4:
      radius = 1
 
      if active:
-        for i in range(8):
+        for i in range(4):
             alpha = max(10, 120 - i * 15)
             glow = pygame.Surface((w + i*10, h + i*10), pygame.SRCALPHA)
             pygame.draw.rect(glow, (*color, alpha),

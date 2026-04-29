@@ -53,7 +53,7 @@ class tictactoe:
           q = self.player_2
        else:
           p = self.player_2
-          q = self.player_2
+          q = self.player_1
 
        if self.move_no%2 != 0:
           winning_line=[1,1,1,1,1]
@@ -90,29 +90,29 @@ class tictactoe:
         left_seperation=(Screen.get_width() - 10*Cell_size)/2
         top_seperation=(Screen.get_height() - 10*Cell_size)/2
         if self.move_no%2 != 0:
-           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_1,True,pygame.font.SysFont("Arial",28))
-           self.draw_neon_button(Screen,30+int(5*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_2,False,pygame.font.SysFont("Arial",28))
+           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_1,True,pygame.font.SysFont("Arial",35))
+           self.draw_neon_button(Screen,30+int(5*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_2,False,pygame.font.SysFont("Arial",35))
         else:
-           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_1,False,pygame.font.SysFont("Arial",28))
-           self.draw_neon_button(Screen,30+int(5*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_2,True,pygame.font.SysFont("Arial",28))
+           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_1,False,pygame.font.SysFont("Arial",35))
+           self.draw_neon_button(Screen,30+int(5*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 10*Cell_size)/2 -60),60,(0,200,255),self.player_2,True,pygame.font.SysFont("Arial",35))
         for i in range(10):
           for j in range(10):
              x = left_seperation + (i * Cell_size)
              y = top_seperation + (j * Cell_size)
              rect = (x, y, Cell_size, Cell_size)
 
-             pygame.draw.rect(Screen, (0,200 , 0), rect)      
-             pygame.draw.rect(Screen, (0, 0, 150), rect, 2)         
+             pygame.draw.rect(Screen, (200,200 ,200), rect)      
+             pygame.draw.rect(Screen, (0, 0, 0), rect, 2)         
 
              cell_center = (x + (Cell_size/2), y + (Cell_size/2))
              gap = Cell_size / 4 
 
              if self.board[j, i] == 1: 
-                pygame.draw.line(Screen, (255, 0, 0), (x + gap, y + gap), (x + Cell_size - gap, y + Cell_size - gap), 3)
-                pygame.draw.line(Screen, (255, 0, 0), (x + Cell_size - gap, y + gap), (x + gap, y + Cell_size - gap), 3)
+                pygame.draw.line(Screen, (255, 0, 0), (x + gap, y + gap), (x + Cell_size - gap, y + Cell_size - gap), 4)
+                pygame.draw.line(Screen, (255, 0, 0), (x + Cell_size - gap, y + gap), (x + gap, y + Cell_size - gap), 4)
 
              elif self.board[j, i] == 2:
-                pygame.draw.circle(Screen, (0, 0, 0), cell_center, (Cell_size/2) - gap, 3)
+                pygame.draw.circle(Screen, (0, 0, 0), cell_center, (Cell_size/2) - gap, 4)
         pygame.display.update()
     def draw_neon_button(self,screen, x, y, w, h, color, text, active, font):
      
@@ -146,9 +146,4 @@ class tictactoe:
      txt = font.render(text, True, text_color)
      txt_rect = txt.get_rect(center=(x + w//2, y + h//2))
      screen.blit(txt, txt_rect)
-    def done(self,x,y,Screen):
-       font = pygame.font.SysFont("arial", 20)
-       text = font.render("PLAY", True, (255,255,255))
-       text = pygame.transform.scale(text, (text.get_width()*3, text.get_height()*3))
-       Screen.blit(text, (x, y))
-       txt_rect = text.get_rect(center=(x + w//2, y + h//2))
+    

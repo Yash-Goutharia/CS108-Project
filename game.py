@@ -27,9 +27,7 @@ class Board_Games:
             self.current_player = sys.argv[2]
         else:
             self.current_player = sys.argv[1]
-    #funcyion to check if the current player won the game or not
     #function to start the gameplay
-    ##draws the board after every turn each player makes a move and stops if a player wins or draws
     def start_game(self):
         while True:
             self.board_game.draw_board(self.gaming_screen,self.my_background,self.X_1,self.Y_1)
@@ -42,7 +40,7 @@ class Board_Games:
                     break
     def results_recording(self,result_list):
         game = [result_list[1],result_list[2],result_list[3],result_list[4]]
-        with open("history.csv","a") as file:
+        with open("history.csv","a",newline='') as file:
             data =csv.writer(file)        
             data.writerow(game)
         self.leaderboard_analytics(game)
@@ -53,19 +51,21 @@ class Board_Games:
             Screen.fill("black")
             self.gaming_screen.blit(self.my_background,(self.X_1,self.Y_1))
             x,y = 600,200
-            font = pygame.font.SysFont("arial", 20)
+            font = pygame.font.SysFont("arial", 48)
             if game_results[0] == "Win":
                 winner = game_results[2]
             if game_results[0] == "Win":
-                text = font.render(f"{winner} won !", True, (255,255,255))
+                text1 = font.render(f"{winner} won !", True, (255,255,255))
             else:
-                text =font.renfer("Draw !",True,(255,255,255))
-            text = pygame.transform.scale(text, (text.get_width()*3, text.get_height()*3))
-            text_rect = text.get_rect(center = (x,y))
-            Screen.blit(text,text_rect)
-            win_sort = pygame.Rect(300,400,100,100)
-            loss_sort = pygame.Rect(400,400,100,100)
-            W_L_sort = pygame.Rect(500,400,100,100) 
+                text1 =font.render("Draw !",True,(255,255,255))
+            text2 = font.render("Sort the leaderboard by:",True,(255,255,255))
+            text_rect = text1.get_rect(center = (x,y))
+            text_rect_2 = text2.get_rect(center = (x,y+100))
+            Screen.blit(text1,text_rect)
+            Screen.blit(text2,text_rect_2)
+            win_sort = pygame.Rect(200,400,200,100)
+            loss_sort = pygame.Rect(500,400,200,100)
+            W_L_sort = pygame.Rect(800,400,200,100) 
             self.draw(Screen,win_sort,"Wins",font)
             self.draw(Screen,loss_sort,"Losses",font)
             self.draw(Screen,W_L_sort,"W/L ratio",font)
@@ -85,6 +85,7 @@ class Board_Games:
                          sorted = "W/L"
                          clicked = True
                          break
+            pygame.display.update()
             if clicked == True:
                 break
         if sorted == "Win":
@@ -100,9 +101,10 @@ class Board_Games:
             reader = csv.reader(f)
             for row in reader:
                 if len(row)>0:
-                  winner = row[0]
-                  wins[winner] = wins.get(winner, 0) + 1
-
+                  if row[0] == "Win":
+                    winner = row[2]
+                    wins[winner] = wins.get(winner, 0) + 1
+                    wins[row[3]] = wins.get(row[3],0)
         players = list(wins.keys())
         win_counts = list(wins.values())
     
@@ -121,11 +123,11 @@ class Board_Games:
         plt.show()
         self.play_new_game()
     def draw(self,screen, rect, text, font):
-       GLOW_COLOR = (0,255,255)
-       RADIUS = 1
+       GLOW_COLOR = (70,170,255)
+       RADIUS = 10
        BASE_COLOR = (0,100,100)
-       TEXT_COLOR = (0,0,0)
-       pygame.draw.rect(screen, GLOW_COLOR, rect.inflate(0, 0), border_radius=RADIUS)
+       TEXT_COLOR = (255,255,255)
+       pygame.draw.rect(screen, GLOW_COLOR, rect.inflate(4, 4), border_radius=RADIUS)
        pygame.draw.rect(screen, BASE_COLOR, rect, border_radius=RADIUS)
 
        txt = font.render(text, True, TEXT_COLOR)
@@ -135,15 +137,14 @@ class Board_Games:
        Screen = self.gaming_screen
        while running:
             Screen.fill("black")
-            self.gaming_screen.blit(self.my_background,(self.X_1,self.Y_1))
+            Screen.blit(self.my_background,(self.X_1,self.Y_1))
             x,y = 600,200
-            font = pygame.font.SysFont("arial", 20)
+            font = pygame.font.SysFont("arial", 48)
             text = font.render("Do you want to play another game ?", True, (255,255,255))
-            text = pygame.transform.scale(text, (text.get_width()*3, text.get_height()*3))
             text_rect = text.get_rect(center = (x,y))
             Screen.blit(text,text_rect)
-            Yes_btn = pygame.Rect(300,400,100,100)
-            No_btn = pygame.Rect(400,400,100,100)
+            Yes_btn = pygame.Rect(300,400,200,100)
+            No_btn = pygame.Rect(700,400,200,100)
             self.draw(Screen,Yes_btn,"Yes",font)
             self.draw(Screen,No_btn,"No",font)
             clicked = False
@@ -155,6 +156,7 @@ class Board_Games:
                          break
                     elif No_btn.collidepoint(mouse_pos):
                         pygame.quit()
+            pygame.display.update()
             if clicked == True:
                 break
        return 
@@ -244,9 +246,9 @@ while(running):
             if tictactoe_button.collidepoint(mouse_pos):
                 my_game = Board_Games(tictactoe(sys.argv[1],sys.argv[2]),screen,my_background,X2,Y2)
             elif othello_button.collidepoint(mouse_pos):
-                my_game = Board_Games(othello(sys.argv[1],sys.argv[2]),screen,my_background)
+                my_game = Board_Games(othello(sys.argv[1],sys.argv[2]),screen,my_background,X2,Y2)
             elif connect4_button.collidepoint(mouse_pos):
-                my_game = Board_Games(connect4(sys.argv[1],sys.argv[2]),screen,my_background)
+                my_game = Board_Games(connect4(sys.argv[1],sys.argv[2]),screen,my_background,X2,Y2)
     
     pygame.display.update()
     for events in pygame.event.get():

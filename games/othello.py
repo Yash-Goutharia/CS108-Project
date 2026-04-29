@@ -118,35 +118,34 @@ class othello:
         left_seperation=(Screen.get_width() - 8*Cell_size)/2
         top_seperation=(Screen.get_height() - 8*Cell_size)/2
         if self.move_no%2 != 0:
-           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_1,True,pygame.font.SysFont("Arial",28))
-           self.draw_neon_button(Screen,30+int(4*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_2,False,pygame.font.SysFont("Arial",28))
+           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_1,True,pygame.font.SysFont("Arial",35))
+           self.draw_neon_button(Screen,30+int(4*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_2,False,pygame.font.SysFont("Arial",35))
         else:
-           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_1,False,pygame.font.SysFont("Arial",28))
-           self.draw_neon_button(Screen,30+int(4*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_2,True,pygame.font.SysFont("Arial",28))
+           self.draw_neon_button(Screen,30+int((Screen.get_width()-image.get_width())/2),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_1,False,pygame.font.SysFont("Arial",35))
+           self.draw_neon_button(Screen,30+int(4*Cell_size + (Screen.get_width()/2)),int(Screen.get_height()/2),int((image.get_width()- 8*Cell_size)/2 -60),60,(0,200,255),self.player_2,True,pygame.font.SysFont("Arial",35))
         for i in range(8):
           for j in range(8):
              x = left_seperation + (i * Cell_size)
              y = top_seperation + (j * Cell_size)
              rect = (x, y, Cell_size, Cell_size)
 
-             pygame.draw.rect(Screen, (0,200 , 0), rect)      
+             pygame.draw.rect(Screen, (0,255 , 0), rect)      
              pygame.draw.rect(Screen, (0, 0, 150), rect, 2)         
 
              cell_center = (x + (Cell_size/2), y + (Cell_size/2))
-             gap = Cell_size / 4 
+             gap = Cell_size / 5 
 
              if self.board[j, i] == 1: 
-                pygame.draw.line(Screen, (255, 0, 0), (x + gap, y + gap), (x + Cell_size - gap, y + Cell_size - gap), 3)
-                pygame.draw.line(Screen, (255, 0, 0), (x + Cell_size - gap, y + gap), (x + gap, y + Cell_size - gap), 3)
+                pygame.draw.circle(Screen, (0, 0, 0), cell_center, (Cell_size/2) - gap)
 
              elif self.board[j, i] == 2:
-                pygame.draw.circle(Screen, (0, 0, 0), cell_center, (Cell_size/2) - gap, 3)
+                pygame.draw.circle(Screen, (255, 255, 255), cell_center, (Cell_size/2) - gap)
         pygame.display.update()
-    def draw_neon_button(screen, x, y, w, h, color, text, active, font):
+    def draw_neon_button(self,screen, x, y, w, h, color, text, active, font):
      radius = h // 2
 
      if active:
-        for i in range(8):
+        for i in range(4):
             alpha = max(10, 120 - i * 15)
             glow = pygame.Surface((w + i*10, h + i*10), pygame.SRCALPHA)
             pygame.draw.rect(glow, (*color, alpha),
