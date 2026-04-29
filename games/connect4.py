@@ -109,9 +109,6 @@ class connect4:
                 elif self.board[j, i] == 2:
                     pygame.draw.circle(Screen, (200,0,0), center, radius)
 
-        # small UI hint
-        font = pygame.font.Font(None, 30)
-        text = font.render("Press Q to quit", True, (255,255,255))
-        Screen.blit(text, (10,10))
+      
 
         pygame.display.update()
