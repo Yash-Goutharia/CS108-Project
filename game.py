@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import subprocess
-import datetime
+from datetime import datetime, date
 import csv
 #base class for execution of the game
 class Board_Games:
@@ -39,7 +39,9 @@ class Board_Games:
                     self.results_recording(result)
                     break
     def results_recording(self,result_list):
-        game = [result_list[1],result_list[2],result_list[3],result_list[4]]
+        today = datetime.now()
+        formatted = today.strftime("%d-%m-%Y") 
+        game = [result_list[1],result_list[2],result_list[3],result_list[4],formatted]
         with open("history.csv","a",newline='') as file:
             data =csv.writer(file)        
             data.writerow(game)

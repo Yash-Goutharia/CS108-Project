@@ -77,13 +77,48 @@ class othello:
                 r += dr
                 c += dc
             
-            # If we hit our own color after a line of opponent chips, it's a valid outflank
+            # If we hit our own color after a line of opponent discs, it's a valid outflank
             if 0 <= r < 8 and 0 <= c < 8 and self.board[r][c] == player:
                 discs_to_flip.extend(potential_flips)
         
         return discs_to_flip
+    def is_valid_move(self ,row, col, player):
+        DIRECTIONS = [
+        (-1, -1), (-1, 0), (-1, 1),
+        (0, -1),(0, 1),
+        (1, -1),  (1, 0), (1, 1)]
+        if self.board[row][col] != 0:
+           return False
+
+        opponent = 2 if player == 1 else 1
+
+        for dr, dc in DIRECTIONS:
+            r, c = row + dr, col + dc
+            found_opponent = False
+
+            while 0 <= r < 8 and 0 <= c < 8 and self.board[r][c] == opponent:
+                found_opponent = True
+                r += dr
+                c += dc
+
+            if found_opponent and 0 <= r < 8 and 0 <= c < 8 and self.board[r][c] == player:
+                  return True
+
+        return False
+
+
+    def has_valid_move(self,player):
+       for i in range(8):
+          for j in range(8):
+            if self.is_valid_move(self.board, i, j, player):
+                 return True
+       return False
+
+    def any_valid_move(self):
+         return self.has_valid_move(1)
+
     def win(self):
-        if np.sum(self.board == 0) == 0:
+        if np.sum(self.board == 0) == 0 or (not self.any_valid_move(self.move_no%2)):
             if np.sum(self.board == 1 ) > np.sum(self.board == 2):
                 return [True,"Win","othello",self.player_1,self.player_2]
             elif np.sum(self.board == 2) > np.sum(self.board == 1):
