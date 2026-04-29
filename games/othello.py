@@ -51,16 +51,13 @@ class othello:
                             flipped_discs = self.get_flipped_discs(row, column, current_player)
                             
                             if flipped_discs:
-                                # Apply the move
                                 self.board[row][column] = current_player
                                 for r, c in flipped_discs:
                                     self.board[r][c] = current_player
                                 
                                 self.move_no += 1
                                 self.latest_move = [row, column]
-                                return True # Move successful, exit loop to update screen
-            
-            # Note: You should call your drawing function here if not handled in a main loop
+                                return True 
             pygame.display.update()
 
     def get_flipped_discs(self, row, col, player):
@@ -106,46 +103,24 @@ class othello:
 
         return False
 
-
     def has_valid_move(self,player):
        for i in range(8):
           for j in range(8):
-            if self.is_valid_move(self.board, i, j, player):
+            if self.is_valid_move(i, j, player):
                  return True
        return False
 
-    def any_valid_move(self):
-         return self.has_valid_move(1)
+    def any_valid_move(self,p):
+         return self.has_valid_move(p)
 
     def win(self):
-        if np.sum(self.board == 0) == 0 or (not self.any_valid_move(self.move_no%2)):
+        if np.sum(self.board == 0) == 0 or (not self.any_valid_move(1) and not self.any_valid_move(2):
             if np.sum(self.board == 1 ) > np.sum(self.board == 2):
                 return [True,"Win","othello",self.player_1,self.player_2]
             elif np.sum(self.board == 2) > np.sum(self.board == 1):
                 return [True,"Win","othello",self.player_2,self.player_1]
             else:
                 return [True,"Draw","othello",self.player_1,self.player_2]
-    def get_winner(self):
-    # Flatten the 2D board and count occurrences
-      flat_board = [cell for row in self.board for cell in row]
-      black_score = flat_board.count(1)
-      white_score = flat_board.count(2)
-
-      if black_score > white_score:
-        return "Black Wins!", black_score, white_score
-      elif white_score > black_score:
-        return "White Wins!", black_score, white_score
-      else:
-        return "Draw!", black_score, white_score
-    def has_valid_moves(self):
-       for r in range(8):
-          for c in range(8):
-            # If the cell is empty, check if it results in any flips
-            if self.board[r][c] == 0:
-                current_player = 1 if self.move_no % 2 == 0 else 2
-                if len(self.get_flipped_discs(r, c, current_player)) > 0:
-                    return True
-       return False
     def draw_board(self,Screen,image,d1,d2):
         Screen.fill("black")
         Screen.blit(image,(d1,d2))
