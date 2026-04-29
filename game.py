@@ -70,6 +70,11 @@ def run_othello():
         # check win
         if game.win():
             print("Game Over")
+            winner = p1 if game.move_no % 2 == 0 else p2
+
+            with open("history.csv", "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([p1, p2, winner, "othello", datetime.now()])
             pygame.time.wait(2000)
             return
         
@@ -86,6 +91,11 @@ def run_connect4():
 
         if game.win():
             print("Game Over")
+            winner = p1 if game.move_no % 2 == 0 else p2
+
+            with open("history.csv", "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([p1, p2, winner, "connect4", datetime.now()])
             pygame.time.wait(2000)
             return
 
@@ -103,6 +113,11 @@ def run_tictactoe():
         # check win
         if game.win():
             print("Game Over")
+            winner = p1 if game.move_no % 2 == 0 else p2
+
+            with open("history.csv", "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([p1, p2, winner, "tictactoe", datetime.now()])
             pygame.time.wait(2000)
             return
         
