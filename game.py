@@ -1,8 +1,8 @@
 import sys
 import pygame
-from othello import othello
-from connect4 import connect4
-from tictactoe import tictactoe
+from games.othello import othello
+from games.connect4 import connect4
+from games.tictactoe import tictactoe
 
 pygame.init()
 
