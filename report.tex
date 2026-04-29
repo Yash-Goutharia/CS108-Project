@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\title{\textbf{Mini Game Hub Project Report}\\CS108}
+\author{Dev Raj Singh}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+% -----------------------------
+\section{Introduction}
+
+This project implements a Mini Game Hub that integrates Bash scripting with Python and Pygame. It allows two users to authenticate, select from multiple games, play interactively, and store results.
+
+% -----------------------------
+\section{External Libraries Used}
+
+\begin{itemize}
+    \item \textbf{Pygame}: Used for GUI rendering, event handling, and game interaction.
+    \item \textbf{NumPy}: Used for efficient board representation and matrix operations.
+    \item \textbf{Matplotlib}: Used for visualizing game statistics (if applicable).
+    \item \textbf{CSV (Python Standard Library)}: Used to store game history.
+    \item \textbf{Datetime (Python Standard Library)}: Used for timestamps.
+    \item \textbf{Sys (Python Standard Library)}: Used for handling command-line arguments.
+    \item \textbf{Subprocess (Python Standard Library)}: Used to execute Bash scripts from Python.
+    \item \textbf{Bash Utilities}: \texttt{cut}, \texttt{sort}, \texttt{uniq} used for leaderboard generation.
+\end{itemize}
+% -----------------------------
+\section{Features Implemented}
+
+\begin{itemize}
+    \item User login and registration system
+    \item Password hashing using SHA-256
+    \item Interactive GUI for all games
+    \item Multiple games: Othello, Connect4, Tic Tac Toe
+    \item Game history stored in CSV format
+    \item Leaderboard generation using Bash
+    \item Replay option after each game
+    \item Clean exit functionality
+\end{itemize}
+
+% -----------------------------
+\section{Code Logic Explanation}
+
+\subsection{Generic Controller (game.py)}
+
+\begin{itemize}
+    \item Displays menu and handles navigation
+    \item Calls respective game modules
+    \item Maintains game loop
+    \item Stores results in CSV file
+\end{itemize}
+
+\subsection{Connect4 Logic}
+
+\begin{itemize}
+    \item 7x7 grid using NumPy array
+    \item Mouse click determines column
+    \item Gravity logic drops piece to lowest available row
+    \item Win condition checks 4 consecutive elements
+\end{itemize}
+
+\subsection{Othello Logic}
+
+\begin{itemize}
+    \item 8x8 board implementation
+    \item Valid moves determined by flanking rules
+    \item Pieces flipped accordingly
+\end{itemize}
+
+\subsection{Tic Tac Toe Logic}
+
+\begin{itemize}
+    \item 10x10 board
+    \item Winning condition: 5 consecutive marks
+    \item Checks rows, columns, diagonals
+\end{itemize}
+
+\subsection{Authentication System}
+
+\begin{itemize}
+    \item Implemented using Bash script
+    \item Username and password input
+    \item Password hashed using SHA-256
+    \item Stored in \texttt{users.txt}
+\end{itemize}
+
+\subsection{Leaderboard System}
+
+\begin{itemize}
+    \item Reads winners from \texttt{history.csv}
+    \item Uses Bash commands to count wins
+    \item Displays sorted leaderboard
+\end{itemize}
+
+
+
+% -----------------------------
+\section{Hurdles Faced}
+
+\begin{itemize}
+    \item Incorrect Pygame event handling causing input freeze
+    \item Errors in mapping mouse clicks to board positions
+    \item Circular import issues due to naming conflicts
+    \item Bash capturing unintended output from functions
+    \item Python version and package installation issues
+\end{itemize}
+
+% -----------------------------
+\section{Future Improvements (10 More Hours)}
+
+\begin{itemize}
+    \item Add AI opponent for single-player mode
+    \item Improve graphical UI and animations
+    \item Add sound effects
+    \item Advanced leaderboard with per-game stats
+    \item Add undo/redo functionality
+\end{itemize}
+
+% -----------------------------
+\section{Bibliography}
+
+\begin{itemize}
+    \item Pygame Documentation: \url{https://www.pygame.org/docs/}
+    \item NumPy Documentation: \url{https://numpy.org/doc/}
+    \item Python Documentation: \url{https://docs.python.org/3/}
+    \item Stack Overflow: \url{https://stackoverflow.com/}
+\end{itemize}
+
+% -----------------------------
+\section{Makefile}
+
+\begin{verbatim}
+all:
+	pdflatex report.tex
+
+clean:
+	rm -f *.aux *.log *.out *.pdf
+\end{verbatim}
+
+% -----------------------------
+\section{Conclusion}
+
+This project demonstrates integration of multiple technologies including Bash and Python. It highlights concepts such as event-driven programming, authentication, file handling, and modular design.
+
+\end{document}
